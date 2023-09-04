@@ -3,6 +3,7 @@ import axios from 'axios'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Display from './components/Display'
+import personsService from './services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -12,24 +13,48 @@ const App = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
-      })
+    personsService
+      .getAll()
+      .then(response => setPersons(response.data))
   }, [])
 
   const addPerson = (event) => {
     event.preventDefault()
-    if
-    (persons.some(e => e.name == newName)){
-      window.alert(`${newName} is already added to phonebook`)
-    return;
-    }
     const newPerson = {
       name: newName,
       number: newNumber
     }
-    setPersons(persons.concat(newPerson))
+
+    if
+    (persons.some(e => e.name == newName)){
+      if
+      (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)){
+        const person = persons.filter(e => e.name == newName)
+        personsService
+          .update(person[0].id, newPerson)
+        newPerson.id = person[0].id
+        persons[persons.indexOf(person[0])]=newPerson
+        setNewName('')
+        setNewNumber('')
+      }
+    return;
+    }
+    personsService
+      .create(newPerson)
+      .then(response => {
+        setPersons(persons.concat(response.data))
+        setNewName('')
+        setNewNumber('')
+      })
+  }
+
+  const removePerson = (id, name) => {
+    if(window.confirm(`Delete ${name}?`)){
+      personsService
+      .remove(id)
+
+    setPersons(persons.filter((person) =>  person.id != id ))
+    }
   }
 
   const handlePersonChange = (event) => {
@@ -51,7 +76,7 @@ const App = () => {
       <h2>Add a new</h2>
       <PersonForm addPerson={addPerson} newName={newName} handlePersonChange={handlePersonChange} newNumber={newNumber} handleNumberChange={handleNumberChange}/>
       <h2>Numbers</h2>
-      <Display persons={persons} newFilter={newFilter}/>
+      <Display persons={persons} newFilter={newFilter} onDelete={removePerson}/>
     </div>
   )
 
