@@ -1,6 +1,6 @@
 import Country from './Country'
 
-const Display = ({ countries, filteredList }) => {
+const Display = ({ countries, filteredList, newFilter }) => {
     if (filteredList.length < 10 && filteredList.length > 1) {
         return(
             <div>
@@ -13,7 +13,7 @@ const Display = ({ countries, filteredList }) => {
         <Country list={filteredList[0].key} countries={countries} />
         )
     }
-    if (filteredList.length >= 10) {
+    if (filteredList.length >= 10 && newFilter != '') {
         return(
             <div>
                 Too many matches, specify another filter
