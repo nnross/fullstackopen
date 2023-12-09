@@ -92,8 +92,17 @@ describe('blog api tests', () => {
         }
 
         expect(response.body).toHaveLength(length)
-        await api.post('/api/blogs').send(newBlog)
+        await api.post('/api/blogs').send(newBlog).expect(201)
         const response2 = await api.get('/api/blogs')
         expect(response2.body).toHaveLength(length+1)
     })
+    test('blog can be deleted with HTTP DELETE', async () => {
+        const id = (await Blog.findOne({})).id
+        await api.delete(`/api/blogs/${id}`).expect(204)
+        expect((listWithManyBlogs).map((blog) => blog.id)).not.toContain(id)
+    })
 })
+
+afterAll(async () => {
+    await mongoose.connection.close()
+  })
