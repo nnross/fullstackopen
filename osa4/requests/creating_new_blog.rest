@@ -7,3 +7,29 @@ Content-Type: application/json
     "url": "maijanhunajat.com",
     "likes": 12
 }
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QyIiwiaWQiOiI2NWEwZmU3NDY4NmY2Nzg1NWRiMGI1OWIiLCJpYXQiOjE3MDUwNTMyMjF9.eyQEXZuCc1RdZKNa_723IXqsvnfRjQ3GDb5FHXfTCpw
+
+{
+    "title": "Test blog4",
+    "author": "Test author4",
+    "url": "testblog4.com",
+    "likes": 5
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpZCI6IjY1YTBmZTcxNjg2ZjY3ODU1ZGIwYjU5OSIsImlhdCI6MTcwNTA1Mjg3OX0.HDvPKjm8cFm8vnuNTMN67hdOMCUyOeAC04GPHyWQufU
+
+{
+    "title": "Test blog 5",
+    "author": "Test author 5",
+    "url": "testblog5.com",
+    "likes": 3
+}
